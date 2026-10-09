@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const pool = require('../db/pool');
+const { requireAuth } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -86,6 +87,10 @@ router.post('/login', async (req, res) => {
     console.error('Login error:', err.message);
     res.status(500).json({ error: 'Something went wrong. Please try again.' });
   }
+});
+
+router.get('/me', requireAuth, (req, res) => {
+  res.json({ user: publicUser(req.user) });
 });
 
 module.exports = router;
