@@ -2,12 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const pool = require('./db/pool');
 const authRoutes = require('./routes/auth');
+const categoryRoutes = require('./routes/categories');
 
 const app = express();
 
 app.use(cors());          
 app.use(express.json());
 app.use('/api/auth', authRoutes);
+app.use('/api/categories', categoryRoutes);
 
 app.get('/api/health', async (req, res) => {
   try {
