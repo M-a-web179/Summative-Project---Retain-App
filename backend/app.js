@@ -10,7 +10,20 @@ const adminRoutes = require('./routes/admin');
 
 const app = express();
 
-app.use(cors());          
+// Only the configured frontend origin(s) may call the API. Comma-separated list.
+const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:5173')
+  .split(',')
+  .map((origin) => origin.trim());
+
+app.use(
+  cors({
+    origin(origin, callback) {
+      // Allow tools like curl (no Origin header) and listed origins.
+      if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error('Not allowed by CORS'));
+    },
+  })
+);
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
@@ -31,6 +44,18 @@ app.get('/api/health', async (req, res) => {
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
+});
+
+// Last-resort error handler: never leak internal details to the client.
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err.message);
+  if (err.message === 'Not allowed by CORS') {
+    return res.status(403).json({ error: 'Origin not allowed' });
+  }
+  if (err.type === 'entity.parse.failed') {
+    return res.status(400).json({ error: 'Invalid JSON in request body' });
+  }
+  res.status(500).json({ error: 'Something went wrong. Please try again.' });
 });
 
 module.exports = app;
