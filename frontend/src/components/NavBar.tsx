@@ -19,9 +19,14 @@ export default function NavBar() {
         </Typography>
         <Box sx={{ flexGrow: 1, display: 'flex', gap: 1 }}>
           {user && (
-            <Button color="inherit" component={RouterLink} to="/">
-              Dashboard
-            </Button>
+            <>
+              <Button color="inherit" component={RouterLink} to="/">
+                Dashboard
+              </Button>
+              <Button color="inherit" component={RouterLink} to="/expenses">
+                Expenses
+              </Button>
+            </>
           )}
           {user?.role === 'admin' && (
             <Button color="inherit" component={RouterLink} to="/admin">

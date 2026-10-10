@@ -4,6 +4,7 @@ import NavBar from './components/NavBar';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminPage from './pages/AdminPage';
 import DashboardPage from './pages/DashboardPage';
+import ExpensesPage from './pages/ExpensesPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 
@@ -17,6 +18,7 @@ function App() {
 
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<DashboardPage />} />
+          <Route path="/expenses" element={<ExpensesPage />} />
         </Route>
 
         <Route element={<AdminRoute />}>
