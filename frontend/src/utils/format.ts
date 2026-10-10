@@ -21,3 +21,14 @@ export function formatDate(isoDate: string): string {
     day: 'numeric',
   });
 }
+
+
+export function currentMonth(): string {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+}
+
+export function formatMonth(month: string): string {
+  const [year, mon] = month.split('-').map(Number);
+  return new Date(year, mon - 1, 1).toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+}
