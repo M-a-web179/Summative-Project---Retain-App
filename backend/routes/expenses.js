@@ -181,4 +181,63 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+
+router.put('/:id', async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id)) {
+      return res.status(400).json({ error: 'Invalid expense id' });
+    }
+
+    const { error, data } = validateExpense(req.body);
+    if (error) return res.status(400).json({ error });
+
+    const category = await pool.query('SELECT id FROM categories WHERE id = $1', [data.categoryId]);
+    if (category.rows.length === 0) {
+      return res.status(400).json({ error: 'Category does not exist' });
+    }
+
+
+    const updated = await pool.query(
+      `UPDATE expenses
+       SET category_id = $1, title = $2, amount = $3, expense_date = $4,
+           payment_method = $5, notes = $6, updated_at = NOW()
+       WHERE id = $7 AND user_id = $8
+       RETURNING id`,
+      [data.categoryId, data.title, data.amount, data.date, data.paymentMethod, data.notes, id, req.user.id]
+    );
+    if (updated.rows.length === 0) {
+      return res.status(404).json({ error: 'Expense not found' });
+    }
+
+    const result = await pool.query(`${EXPENSE_SELECT} WHERE e.id = $1`, [id]);
+    res.json({ expense: result.rows[0] });
+  } catch (err) {
+    console.error('Update expense error:', err.message);
+    res.status(500).json({ error: 'Something went wrong. Please try again.' });
+  }
+});
+
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id)) {
+      return res.status(400).json({ error: 'Invalid expense id' });
+    }
+
+    const result = await pool.query(
+      'DELETE FROM expenses WHERE id = $1 AND user_id = $2 RETURNING id',
+      [id, req.user.id]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Expense not found' });
+    }
+    res.json({ message: 'Expense deleted' });
+  } catch (err) {
+    console.error('Delete expense error:', err.message);
+    res.status(500).json({ error: 'Something went wrong. Please try again.' });
+  }
+});
+
 module.exports = router;
