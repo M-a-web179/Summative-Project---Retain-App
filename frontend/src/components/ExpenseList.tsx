@@ -6,11 +6,12 @@ import { PAYMENT_METHOD_LABELS, formatDate, formatMoney } from '../utils/format'
 
 interface ExpenseListProps {
   expenses: Expense[];
+  onView?: (expense: Expense) => void;
   onEdit?: (expense: Expense) => void;
   onDelete?: (expense: Expense) => void;
 }
 
-export default function ExpenseList({ expenses, onEdit, onDelete }: ExpenseListProps) {
+export default function ExpenseList({ expenses, onView, onEdit, onDelete }: ExpenseListProps) {
   return (
     <Box sx={{ display: 'grid', gap: 1.5 }}>
       {expenses.map((expense) => (
@@ -25,7 +26,11 @@ export default function ExpenseList({ expenses, onEdit, onDelete }: ExpenseListP
             }}
           >
             <Box>
-              <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+              <Typography
+                variant="subtitle1"
+                sx={{ fontWeight: 600, cursor: onView ? 'pointer' : 'default' }}
+                onClick={onView ? () => onView(expense) : undefined}
+              >
                 {expense.title}
               </Typography>
               <Typography variant="body2" color="text.secondary">
