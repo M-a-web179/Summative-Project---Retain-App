@@ -5,6 +5,7 @@ const authRoutes = require('./routes/auth');
 const categoryRoutes = require('./routes/categories');
 const expenseRoutes = require('./routes/expenses');
 const budgetRoutes = require('./routes/budgets');
+const dashboardRoutes = require('./routes/dashboard');
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/expenses', expenseRoutes);
 app.use('/api/budgets', budgetRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 app.get('/api/health', async (req, res) => {
   try {
