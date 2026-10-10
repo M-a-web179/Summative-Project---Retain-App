@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import './index.css';
 import App from './App.tsx';
 import { AuthProvider } from './context/AuthContext.tsx';
+import ErrorBoundary from './components/ErrorBoundary.tsx';
 import { store } from './store';
 
 const theme = createTheme({
@@ -19,7 +20,9 @@ createRoot(document.getElementById('root')!).render(
         <CssBaseline />
         <BrowserRouter>
           <AuthProvider>
-            <App />
+            <ErrorBoundary>
+              <App />
+            </ErrorBoundary>
           </AuthProvider>
         </BrowserRouter>
       </ThemeProvider>
