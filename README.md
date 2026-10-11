@@ -2,8 +2,8 @@
 
 Retain is a responsive web app for tracking personal expenses and monthly budgets, with an admin dashboard for platform insights and category management.
 
-**Live app:** DEPLOYED_URL_HERE
-**API:** DEPLOYED_API_URL_HERE/api/health
+**Live app:**(https://summativeprojectretainapp-oef8.vercel.app)
+**API:** (https://retain-api-iqbp.onrender.com)
 
 ## Main features
 
@@ -97,3 +97,10 @@ All routes except sign up and sign in require `Authorization: Bearer <token>`. U
 - Passwords are hashed with bcrypt; tokens are signed JWTs.
 - The backend checks ownership on every expense and budget query, and re-reads the user's role from the database on each request.
 - Frontend route guards are for usability only; the API enforces access control.
+
+## DEMO ACCOUNTS 
+| Role | Email | Password |
+| Admin | admin@retain-demo.com | DemoAdmin123
+| User | user@retain-demo.com | DemoUser123
+
+**Note:** the backend runs on a free Render instance that sleeps when idle. The first request after a quiet period can take 30 to 60 seconds to respond.
