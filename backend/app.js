@@ -10,7 +10,6 @@ const adminRoutes = require('./routes/admin');
 
 const app = express();
 
-// Only the configured frontend origin(s) may call the API. Comma-separated list.
 const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:5173')
   .split(',')
   .map((origin) => origin.trim());
@@ -31,6 +30,16 @@ app.use('/api/expenses', expenseRoutes);
 app.use('/api/budgets', budgetRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/admin', adminRoutes);
+
+// Friendly response for anyone opening the API address in a browser.
+app.get('/', (req, res) => {
+  res.json({
+    name: 'Retain API',
+    status: 'running',
+    health: '/api/health',
+    documentation: 'See the API overview table in the project README.',
+  });
+});
 
 app.get('/api/health', async (req, res) => {
   try {
