@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS expenses (
   amount         NUMERIC(12,2) NOT NULL CHECK (amount > 0),
   expense_date   DATE          NOT NULL,
   payment_method VARCHAR(20)   NOT NULL
-                 CHECK (payment_method IN ('cash', 'card', 'mobile money', 'bank transfer')),
+                 CHECK (payment_method IN ('cash', 'card', 'mobile_money', 'bank_transfer')),
   notes          TEXT,
   created_at     TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
   updated_at     TIMESTAMPTZ   NOT NULL DEFAULT NOW()
