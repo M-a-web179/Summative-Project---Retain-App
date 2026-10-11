@@ -3,6 +3,7 @@
 Retain is a responsive web app for tracking personal expenses and monthly budgets, with an admin dashboard for platform insights and category management.
 
 **Live app:** [https://summativeprojectretainapp-oef8.vercel.app](https://summativeprojectretainapp-oef8.vercel.app)
+
 **API (health check):** [https://retain-api-iqbp.onrender.com/api/health](https://retain-api-iqbp.onrender.com/api/health)
 
 ## Main features
